@@ -3,10 +3,10 @@ import 'package:quiz_app/model/model_quiz.dart';
 import 'package:quiz_app/screen/screen_home.dart';
 
 class ResultScreen extends StatelessWidget {
-  List<int> answer;
+  List<int> answers;
   List<Quiz> quizs;
 
-  ResultScreen({required this.answer, required this.quizs});
+  ResultScreen({required this.answers, required this.quizs});
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +16,12 @@ class ResultScreen extends StatelessWidget {
     int score = 0;
 
     for (int i = 0; i < quizs.length; i++) {
-      if (quizs[i].answer == answer[i]) {
+      if (quizs[i].answer == answers[i]) {
         score += 1;
       }
     }
     return WillPopScope(
-      onWillPop: () async => Navigator.pop(),
+      onWillPop: () async => false,
       child: SafeArea(
           child: Scaffold(
         appBar: AppBar(

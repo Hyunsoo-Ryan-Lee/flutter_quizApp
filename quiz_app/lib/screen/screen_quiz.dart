@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -16,7 +14,7 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  List<int> _answer = [-1, -1, -1];
+  List<int> _answer = [-1, -1, -1, -1];
   List<bool> _answerState = [false, false, false, false];
   int _currentIndex = 0;
   SwiperController _controller = SwiperController();
@@ -99,7 +97,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ResultScreen(
-                                      answer: _answer, quizs: widget.quizs)));
+                                      answers: _answer, quizs: widget.quizs)));
                         } else {
                           _answerState = [false, false, false, false];
                           _currentIndex += 1;
@@ -126,7 +124,7 @@ class _QuizScreenState extends State<QuizScreen> {
               for (int j = 0; j < 4; j++) {
                 if (j == i) {
                   _answerState[j] = true;
-                  _answer[_currentIndex] = j;
+                  _answer[_currentIndex] = j + 1;
                 } else {
                   _answerState[j] = false;
                 }
