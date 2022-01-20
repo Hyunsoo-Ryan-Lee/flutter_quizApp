@@ -18,6 +18,7 @@ class _QuizScreenState extends State<QuizScreen> {
   List<bool> _answerState = [false, false, false, false];
   int _currentIndex = 0;
   SwiperController _controller = SwiperController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

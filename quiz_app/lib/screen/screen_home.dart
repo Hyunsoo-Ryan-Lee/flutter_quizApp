@@ -13,28 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<Quiz> quizs = [];
-  bool isLoading = false;
-
-  _fetchQuiz() async {
-    setState(() {
-      isLoading = true;
-    });
-    final response = await http.get(
-        Uri.parse('https://6238-112-154-191-206.ngrok.io/quiz/4/'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        });
-    if (response.statusCode == 200) {
-      setState(() {
-        quizs = parseQuiz(utf8.decode(response.bodyBytes));
-        isLoading = false;
-      });
-    } else {
-      throw Exception('failed');
-    }
-  }
 
   // List<Quiz> quizs = [
   //   Quiz.fromMap({
@@ -62,10 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
       onWillPop: () async => false,
       child: SafeArea(
         child: Scaffold(
-            key: _scaffoldKey,
+            // key: _scaffoldKey,
             appBar: AppBar(
               title: Text('My Quiz App'),
-              leading: Container(),
+              leading: Container(), // 뒤로가기가 사라지는 효과!
             ),
             body: Center(
               child: Column(
@@ -77,12 +57,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: width * 0.8,
                   ),
                   SizedBox(
-                    height: 10,
+                    height: size.height * 0.03,
                   ),
-                  _buildStep(width, "가즈아!!!"),
+                  _buildStep(width, "필름카메라에 관한 간단한 퀴즈입니다."),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
                   OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.black),
+                          backgroundColor: Colors.redAccent),
                       onPressed: () {
                         _fetchQuiz().whenComplete(() {
                           return Navigator.push(
@@ -108,16 +91,34 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: EdgeInsets.fromLTRB(
           width * 0.05, width * 0.025, width * 0.05, width * 0.025),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             Icons.check_box,
             size: width * 0.04,
           ),
           Padding(padding: EdgeInsets.only(right: width * 0.025)),
-          Text(title)
+          Text(
+            title,
+            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+          )
         ],
       ),
     );
+  }
+
+  _fetchQuiz() async {
+    final response = await http.get(
+        Uri.parse('https://b076-112-154-191-206.ngrok.io/quiz/4/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+    if (response.statusCode == 200) {
+      setState(() {
+        quizs = parseQuiz(utf8.decode(response.bodyBytes));
+      });
+    } else {
+      throw Exception('failed');
+    }
   }
 }
